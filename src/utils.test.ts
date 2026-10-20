@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { beautify, formatOutput, minify, parseJson, resolveDocumentName, safeFilename } from './utils'
+import { beautify, formatOutput, minify, parseJson, resolveDocumentName, safeFilename, toggleCompareId } from './utils'
 
 describe('JSON utilities', () => {
   it('beautifies valid JSON without mutating invalid input', () => {
@@ -26,5 +26,11 @@ describe('JSON utilities', () => {
     expect(resolveDocumentName('Orders', '')).toBe('Orders')
     expect(resolveDocumentName('Orders', '   ')).toBe('Orders')
     expect(resolveDocumentName('Orders', '  Payments  ')).toBe('Payments')
+  })
+  it('limits compare selection to two documents and preserves selection order', () => {
+    expect(toggleCompareId([], 'first')).toEqual(['first'])
+    expect(toggleCompareId(['first'], 'second')).toEqual(['first', 'second'])
+    expect(toggleCompareId(['first', 'second'], 'third')).toEqual(['first', 'second'])
+    expect(toggleCompareId(['first', 'second'], 'first')).toEqual(['second'])
   })
 })

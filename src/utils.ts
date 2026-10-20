@@ -18,5 +18,6 @@ function makeSnippet(content: string, line: number) { const lines = content.spli
 export const beautify = (content: string, indent: 2 | 4) => { const parsed = parseJson(content); return parsed.valid ? JSON.stringify(parsed.value, null, indent) : null }
 export const minify = (content: string) => { const parsed = parseJson(content); return parsed.valid ? JSON.stringify(parsed.value) : null }
 export const formatOutput = (content: string, mode: Exclude<OutputMode, 'tree'>, indent: 2 | 4) => { const parsed = parseJson(content); if (!parsed.valid) return null; return mode === 'minify' ? JSON.stringify(parsed.value) : JSON.stringify(parsed.value, null, indent) }
+export const toggleCompareId = (selectedIds: string[], id: string) => selectedIds.includes(id) ? selectedIds.filter((item) => item !== id) : selectedIds.length < 2 ? [...selectedIds, id] : selectedIds
 export const safeFilename = (name: string) => (name.trim().replace(/[<>:"/\\|?*\x00-\x1F]/g, '-').replace(/\s+/g, '-').slice(0, 80) || 'fusic-document') + '.json'
 export const resolveDocumentName = (previousName: string, draftName: string) => draftName.trim() ? draftName.trim() : previousName
